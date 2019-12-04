@@ -83,7 +83,7 @@ class App extends Component {
       <div>
         <h2>Food List</h2>
         <div>
-          <button class="btn btn-primary mb-1 ml-2" onClick={this.togglePopup}>
+          <button className="btn btn-primary mb-1 ml-2" onClick={this.togglePopup}>
             Add new foods
           </button>
           <div>
@@ -96,7 +96,7 @@ class App extends Component {
           </div>
         </div>
         <div className="d-flex flex-row w-100">
-          <div class="w-50 mr-3">
+          <div className="w-50 mr-3">
             {this.state.showPopup ? (
               <div>
                 <Form
@@ -106,15 +106,15 @@ class App extends Component {
               </div>
             ) : null}{" "}
             {this.state.filtered.map(food => {
-              return <FoodBox {...food} addFood={this.addFood} />;
+              return <FoodBox {...food} addFood={this.addFood} key={food.name} />;
             })}
           </div>
-          <div class="w-40">
+          <div className="w-40">
             <h2>Today's Food</h2>
             <ul>
               {this.state.todayfood.map(food => {
                 return (
-                  <li>
+                  <li key={food.name}>
                     Quantity: {food.quantity}, Name: {food.name}, Calories: {food.calories}
                   </li>
                 );

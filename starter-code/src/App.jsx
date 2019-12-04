@@ -66,12 +66,31 @@ class App extends Component {
 
   addFood(e) {
     e.preventDefault();
-    console.log("event", e.target.children.food.children.name.innerText);
+    let list = [...this.state.todayfood];
     const name = e.target.children.food.children.name.innerText;
     const calories = e.target.children.food.children.calories.innerText;
     const quantity = e.target.children.quantityBox.children.quantity.value;
-    const list = [...this.state.todayfood, { name: name, calories: calories, quantity: quantity }];
-    const totalCalories = this.state.totalCalories*1 + calories*1;
+    const totalCalories =
+      this.state.totalCalories * 1 + calories * 1 * quantity;
+   
+    if (list.find(food => (food.name = name))) {
+      console.log("there is this item!");
+      for (let i = 0; i<= list.length; i++) {
+        console.log('for loop', list[i]);
+        console.log('for loop', list[i].name);
+        if(list[i].name == name) {
+          console.log('in the if');
+          list[i].quantity = list[i].quantity*1 + quantity*1;
+          break;
+        }
+      }
+    } else {
+      list = [
+        ...this.state.todayfood,
+        { name: name, calories: calories, quantity: quantity }
+      ];
+    }
+
     this.setState({
       todayfood: list,
       totalCalories: totalCalories
@@ -83,7 +102,10 @@ class App extends Component {
       <div>
         <h2>Food List</h2>
         <div>
-          <button className="btn btn-primary mb-1 ml-2" onClick={this.togglePopup}>
+          <button
+            className="btn btn-primary mb-1 ml-2"
+            onClick={this.togglePopup}
+          >
             Add new foods
           </button>
           <div>
@@ -106,7 +128,9 @@ class App extends Component {
               </div>
             ) : null}{" "}
             {this.state.filtered.map(food => {
-              return <FoodBox {...food} addFood={this.addFood} key={food.name} />;
+              return (
+                <FoodBox {...food} addFood={this.addFood} key={food.name} />
+              );
             })}
           </div>
           <div className="w-40">
@@ -114,8 +138,9 @@ class App extends Component {
             <ul>
               {this.state.todayfood.map(food => {
                 return (
-                  <li key={food.name}>
-                    Quantity: {food.quantity}, Name: {food.name}, Calories: {food.calories}
+                  <li key={Math.random()}>
+                    Quantity: {food.quantity}, Name: {food.name}, Calories:{" "}
+                    {food.calories}
                   </li>
                 );
               })}

@@ -14,7 +14,7 @@ export class FoodBox extends Component {
               maxWidth: 1600,
               maxHeight: 130
             }}
-            alt='test'
+            alt={name}
           />
           <div className="media-body align-self-center" name="food">
             <h5 className="mt-0 mb-1" name="name">

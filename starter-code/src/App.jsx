@@ -20,6 +20,7 @@ class App extends Component {
     this.addFoodToList = this.addFoodToList.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.addFood = this.addFood.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   togglePopup() {
@@ -72,29 +73,29 @@ class App extends Component {
     const quantity = e.target.children.quantityBox.children.quantity.value;
     const totalCalories =
       this.state.totalCalories * 1 + calories * 1 * quantity;
-   
-    if (list.find(food => (food.name = name))) {
-      console.log("there is this item!");
-      for (let i = 0; i<= list.length; i++) {
-        console.log('for loop', list[i]);
-        console.log('for loop', list[i].name);
-        if(list[i].name == name) {
-          console.log('in the if');
-          list[i].quantity = list[i].quantity*1 + quantity*1;
+
+    if (list.find(food => (food.name === name))) {
+
+      for (let i = 0; i <= list.length; i++) {
+        if (list[i].name == name) {
+          list[i].quantity = list[i].quantity * 1 + quantity * 1;
           break;
         }
       }
     } else {
-      list = [
-        ...this.state.todayfood,
-        { name: name, calories: calories, quantity: quantity }
-      ];
+      list.push({ name: name, calories: calories, quantity: quantity });
     }
 
     this.setState({
       todayfood: list,
       totalCalories: totalCalories
     });
+  }
+
+  delete(id) {
+    this.setState(prevState => ({
+      todayfood: prevState.todayfood.filter(el => el != id)
+    }));
   }
 
   render() {
@@ -140,7 +141,7 @@ class App extends Component {
                 return (
                   <li key={Math.random()}>
                     Quantity: {food.quantity}, Name: {food.name}, Calories:{" "}
-                    {food.calories}
+                    {food.calories} - <button onClick={this.delete}>🗑</button>
                   </li>
                 );
               })}

@@ -74,8 +74,7 @@ class App extends Component {
     const totalCalories =
       this.state.totalCalories * 1 + calories * 1 * quantity;
 
-    if (list.find(food => (food.name === name))) {
-
+    if (list.find(food => food.name === name)) {
       for (let i = 0; i <= list.length; i++) {
         if (list[i].name == name) {
           list[i].quantity = list[i].quantity * 1 + quantity * 1;
@@ -92,10 +91,15 @@ class App extends Component {
     });
   }
 
-  delete(id) {
-    this.setState(prevState => ({
-      todayfood: prevState.todayfood.filter(el => el != id)
-    }));
+  delete(element) {
+
+    let list = [...this.state.todayfood];
+    let index = list.indexOf(element);
+
+    if (index !== -1) {
+      list.splice(index, 1);
+      this.setState({todayfood: list});
+    }
   }
 
   render() {
@@ -111,7 +115,7 @@ class App extends Component {
           </button>
           <div>
             <input
-              type="text"
+              type="search"
               className="input w-50 mb-1"
               placeholder="Search..."
               onChange={this.handleChange}
@@ -141,7 +145,8 @@ class App extends Component {
                 return (
                   <li key={Math.random()}>
                     Quantity: {food.quantity}, Name: {food.name}, Calories:{" "}
-                    {food.calories} - <button onClick={this.delete}>🗑</button>
+                    {food.calories} -{" "}
+                    <button onClick={() => {this.delete(food)}}>🗑</button>
                   </li>
                 );
               })}
